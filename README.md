@@ -20,6 +20,7 @@ This project contains a series of specialized scripts exploring advanced Python 
 | `monkey_patching_demo.py` | **Runtime Modification** | Dynamically altering code behavior for testing or bug fixes. |
 | `memory_management_demo.py` | **Garbage Collection** | Deep dive into reference counting and circular references. |
 | `closures_demo.py` | **Closures** | Function object remembering values in enclosing scopes for state and factories. |
+| `performance_optimization_demo.py` | **Optimization** | Performance techniques like `__slots__`, `lru_cache`, and local caching. |
 
 ## Core Patterns
 - **Singleton Pattern**: `singleton_pattern_demo.py` - Ensuring single instances for loggers/configs.
