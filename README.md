@@ -22,6 +22,7 @@ This project contains a series of specialized scripts exploring advanced Python 
 | `closures_demo.py` | **Closures** | Function object remembering values in enclosing scopes for state and factories. |
 | `performance_optimization_demo.py` | **Optimization** | Performance techniques like `__slots__`, `lru_cache`, and local caching. |
 | `descriptors_demo.py` | **Descriptors** | Deep dive into `__get__` and `__set__` for custom attribute access logic. |
+| `structural_pattern_matching_demo.py` | **Pattern Matching** | Expert use of `match-case` for destructuring and validation (3.10+). |
 
 ## Core Patterns
 - **Singleton Pattern**: `singleton_pattern_demo.py` - Ensuring single instances for loggers/configs.
