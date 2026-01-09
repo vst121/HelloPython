@@ -34,6 +34,9 @@ This project contains a series of specialized scripts exploring advanced Python 
 - **Proxy Pattern**: `proxy_pattern_demo.py` - Intercepting object access.
 - **Composite Pattern**: `composite_pattern_demo.py` - Tree structures and part-whole hierarchies.
 
+## Testing & Quality Assurance
+- **Pytest**: `test_pytest_demo.py` - Demonstrating fixtures, parametrization, exception testing, and mocking for robust code verification.
+
 ## Getting Started
 To begin your journey through Python mastery:
 1. Clone the repository.
