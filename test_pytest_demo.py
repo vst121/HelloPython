@@ -147,7 +147,7 @@ def test_transaction_logger_integration(tmp_path):
     assert "Withdrawal of 50" in logs[1]
     assert log_file.exists()  # Verify the file was actually created on disk
 
-# 6. Built-in help: Showing how to run this file directly
+# 7. Built-in help: Showing how to run this file directly
 if __name__ == "__main__":
     print("\nRunning Pytest Demonstration...")
     print("=" * 60)
