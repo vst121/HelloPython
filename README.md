@@ -57,4 +57,4 @@ To begin your journey through Python mastery:
 _Targeted at developers transitioning into the world of AI Engineering._
 
 
-Co-authored-by fsunny524 <fatima.sunny524@gmail.com>
+Co-authored-by: fsunny524 <fatima.sunny524@gmail.com>

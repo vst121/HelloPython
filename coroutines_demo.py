@@ -34,7 +34,12 @@ def coroutine(func: Callable) -> Callable:
     @wraps(func)
     def primed(*args, **kwargs):
         gen = func(*args, **kwargs)
-        next(gen)
+        # Prime the generator so it's ready to receive with .send()
+        try:
+            next(gen)
+        except StopIteration:
+            # In case the generator exits immediately, just return it
+            return gen
         return gen
 
     return primed
@@ -71,23 +76,55 @@ def averager(name: str = "avg"):
 
 
 @coroutine
-def broadcaster(targets: Iterable):
-    """Broadcast values to multiple consumer coroutines."""
+def broadcaster(targets: Iterable[Any]):
+    """Broadcast values to multiple consumer coroutines.
+
+    Robustness improvements:
+    - Accepts any iterable of targets and keeps an internal list.
+    - If a target raises on send (closed or runtime error), the error is
+      reported and the target is removed so the pipeline keeps running.
+    - On close, attempts to close remaining targets gracefully.
+    """
+    targets_list: List[Any] = list(targets)
     try:
         while True:
             value = (yield)
-            for t in targets:
-                t.send(value)
+            alive: List[Any] = []
+            for t in targets_list:
+                try:
+                    t.send(value)
+                    alive.append(t)
+                except (StopIteration, GeneratorExit, RuntimeError):
+                    # Target closed or cannot accept values anymore: drop it
+                    continue
+                except Exception as exc:
+                    # Log and keep target (transient errors shouldn't drop it)
+                    print(f"broadcaster: target {getattr(t,'__name__',t.__class__.__name__)} error: {exc}")
+                    alive.append(t)
+            targets_list = alive
     except GeneratorExit:
-        for t in targets:
-            t.close()
+        for t in targets_list:
+            try:
+                t.close()
+            except Exception:
+                pass
         print("broadcaster: closing and shutting down targets")
 
 
-def producer(values: Iterable[float], target):
-    """Send a sequence of values to a coroutine target."""
+def producer(values: Iterable[float], target: Any) -> int:
+    """Send a sequence of values to a coroutine target.
+
+    Returns the number of values successfully sent.
+    """
+    sent = 0
     for v in values:
-        target.send(v)
+        try:
+            target.send(v)
+            sent += 1
+        except Exception as exc:
+            print(f"producer: failed to send {v!r} -> {exc}")
+            break
+    return sent
 
 
 @coroutine
@@ -210,7 +247,8 @@ def run_demo():
     bc = broadcaster([p1, avg])
     sample_values = [10, 20, 30, 25, 15]
     print("Producing values to broadcaster -> printer1 + averager")
-    producer(sample_values, bc)
+    sent = producer(sample_values, bc)
+    print(f"producer: sent {sent} items")
 
     print("Sending one value directly to Printer2")
     p2.send(99)
