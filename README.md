@@ -55,8 +55,3 @@ To begin your journey through Python mastery:
 ---
 
 Targeted at developers transitioning into the world of AI Engineering.
-
-Test the co-creation
-
-Author: vst121 <vst121@gmail.com>
-Co-authored-by: fsunny524 <fatima.sunny524@gmail.com>
