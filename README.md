@@ -28,6 +28,8 @@ This project contains a series of specialized scripts exploring advanced Python 
 | `encapsulation_demo.py`               | **Encapsulation**        | Data protection with private attributes and properties.                          |
 | `generators_demo.py`                  | **Generators**           | Memory-efficient iteration using `yield`.                                        |
 | `type_hinting_demo.py`                | **Type Hinting**         | Static typing annotations for better code clarity and tooling.                   |
+| `coroutines_demo.py`                  | **Coroutines**           | Advanced async patterns and producer-consumer patterns.                          |
+| `decorators_demo.py`                  | **Decorators**           | Function and class decorators for cross-cutting concerns.                        |
 
 ## Core Patterns
 
@@ -43,6 +45,82 @@ This project contains a series of specialized scripts exploring advanced Python 
 ## Testing & Quality Assurance
 
 - **Pytest**: `test_pytest_demo.py` - Demonstrating fixtures, parametrization, exception testing, and mocking for robust code verification.
+
+## AI Agent Demos
+
+This project includes extensive demonstrations of AI agent architectures using Large Language Models (LLMs):
+
+### Foundation & Utility Agents
+
+| File                       | Description                                          |
+| :------------------------- | :--------------------------------------------------- |
+| `ollama_chat_demo.py`      | Basic chat interaction with Ollama local LLM.        |
+| `web_search_agent_demo.py` | Agent that searches the web for current information. |
+| `sql_agent_demo.py`        | Natural language to SQL query generation.            |
+
+### Single-Agent Architectures
+
+| File                                    | Description                                                         |
+| :-------------------------------------- | :------------------------------------------------------------------ |
+| `autonomous_agent_demo.py`              | Fully autonomous agent with tools and self-directed planning.       |
+| `react_agent_demo.py`                   | ReAct (Reason + Act) pattern combining reasoning with tool actions. |
+| `self_ask_agent_demo.py`                | Self-ask with search agent for complex question answering.          |
+| `chain_of_verification_agent_demo.py`   | Multi-stage verification to ensure response accuracy.               |
+| `function_calling_agent_demo.py`        | Using function calling to structure LLM outputs.                    |
+| `recursive_decomposition_agent_demo.py` | Breaking complex problems into smaller subproblems.                 |
+
+### Memory & Knowledge Agents
+
+| File                             | Description                                                  |
+| :------------------------------- | :----------------------------------------------------------- |
+| `memory_augmented_agent_demo.py` | Agent with persistent memory for long-running conversations. |
+| `rag_agent_demo.py`              | Retrieval-Augmented Generation for knowledge base queries.   |
+| `knowledge_graph_agent_demo.py`  | Using knowledge graphs for structured information retrieval. |
+
+### Multi-Agent Systems
+
+| File                            | Description                                     |
+| :------------------------------ | :---------------------------------------------- |
+| `multi_agent_demo.py`           | Multiple agents collaborating on complex tasks. |
+| `workflow_agent_demo.py`        | Orchestrating agents in defined workflows.      |
+| `ensemble_voting_agent_demo.py` | Multiple agents voting/consensus for decisions. |
+
+### Specialized Application Agents
+
+| File                               | Description                                      |
+| :--------------------------------- | :----------------------------------------------- |
+| `ai_email_agent_demo.py`           | Composing and analyzing emails with AI.          |
+| `data_analysis_agent_demo.py`      | Analyzing datasets and generating insights.      |
+| `personal_assistant_agent_demo.py` | General-purpose personal assistant capabilities. |
+| `prompt_engineering_agent_demo.py` | Assisting with prompt creation and optimization. |
+| `scientific_agent_demo.py`         | Scientific research and literature analysis.     |
+| `text_adventure_agent_demo.py`     | Interactive narrative and game experiences.      |
+
+### Reasoning & Cognitive Agents
+
+| File                                 | Description                                              |
+| :----------------------------------- | :------------------------------------------------------- |
+| `tree_of_thought_agent_demo.py`      | Exploring multiple reasoning paths simultaneously.       |
+| `self_refining_agent_demo.py`        | Agent that iteratively improves its own outputs.         |
+| `metacognitive_agent_demo.py`        | Agent with awareness of its own reasoning process.       |
+| `socratic_questioning_agent_demo.py` | Using Socratic method for deeper understanding.          |
+| `debate_agent_demo.py`               | Multiple agents debating topics for comprehensive views. |
+| `scenario_planning_agent_demo.py`    | Exploring future scenarios and contingencies.            |
+
+### Collaborative & Task-Specific Agents
+
+| File                              | Description                                                |
+| :-------------------------------- | :--------------------------------------------------------- |
+| `pair_programmer_agent_demo.py`   | AI pair programming assistant.                             |
+| `tdd_agent_demo.py`               | Test-Driven Development with AI assistance.                |
+| `feedback_loop_agent_demo.py`     | Agent that learns from user feedback.                      |
+| `curriculum_agent_demo.py`        | Adaptive learning path creation.                           |
+| `persona_agent_demo.py`           | Maintaining consistent character/persona in conversations. |
+| `negotiation_agent_demo.py`       | Negotiation and conflict resolution.                       |
+| `counterfactual_agent_demo.py`    | Exploring "what-if" scenarios.                             |
+| `ethical_reasoning_agent_demo.py` | Ethical analysis and reasoning.                            |
+| `context_manager_agent_demo.py`   | Managing context across complex interactions.              |
+| `multimodal_agent_demo.py`        | Processing multiple input types (text, images, etc.).      |
 
 ## Getting Started
 
