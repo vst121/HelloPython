@@ -121,6 +121,7 @@ This project includes extensive demonstrations of AI agent architectures using L
 | `ethical_reasoning_agent_demo.py` | Ethical analysis and reasoning.                            |
 | `context_manager_agent_demo.py`   | Managing context across complex interactions.              |
 | `multimodal_agent_demo.py`        | Processing multiple input types (text, images, etc.).      |
+| `voice_ai_agent_demo.py`          | Voice AI agent with speech-to-text and text-to-speech.     |
 
 ## Getting Started
 
