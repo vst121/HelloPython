@@ -109,19 +109,19 @@ This project includes extensive demonstrations of AI agent architectures using L
 
 ### Collaborative & Task-Specific Agents
 
-| File                              | Description                                                |
-| :-------------------------------- | :--------------------------------------------------------- |
-| `pair_programmer_agent_demo.py`   | AI pair programming assistant.                             |
-| `tdd_agent_demo.py`               | Test-Driven Development with AI assistance.                |
-| `feedback_loop_agent_demo.py`     | Agent that learns from user feedback.                      |
-| `curriculum_agent_demo.py`        | Adaptive learning path creation.                           |
-| `persona_agent_demo.py`           | Maintaining consistent character/persona in conversations. |
-| `negotiation_agent_demo.py`       | Negotiation and conflict resolution.                       |
-| `counterfactual_agent_demo.py`    | Exploring "what-if" scenarios.                             |
-| `ethical_reasoning_agent_demo.py` | Ethical analysis and reasoning.                            |
-| `context_manager_agent_demo.py`   | Managing context across complex interactions.              |
-| `multimodal_agent_demo.py`        | Processing multiple input types (text, images, etc.).      |
-| `voice_ai_agent_demo.py`          | Voice AI agent with speech-to-text and text-to-speech.     |
+| File                              | Description                                                            |
+| :-------------------------------- | :--------------------------------------------------------------------- |
+| `pair_programmer_agent_demo.py`   | AI pair programming assistant.                                         |
+| `tdd_agent_demo.py`               | Test-Driven Development with AI assistance.                            |
+| `feedback_loop_agent_demo.py`     | Agent that learns from user feedback.                                  |
+| `curriculum_agent_demo.py`        | Adaptive learning path creation.                                       |
+| `persona_agent_demo.py`           | Maintaining consistent character/persona in conversations.             |
+| `negotiation_agent_demo.py`       | Negotiation and conflict resolution.                                   |
+| `counterfactual_agent_demo.py`    | Exploring "what-if" scenarios.                                         |
+| `ethical_reasoning_agent_demo.py` | Ethical analysis and reasoning.                                        |
+| `context_manager_agent_demo.py`   | Managing context across complex interactions.                          |
+| `multimodal_agent_demo.py`        | Processing multiple input types (text, images, etc.).                  |
+| `voice_ai_agent_demo.py`          | Voice AI agent with function calling, streaming, JSON mode, and tools. |
 
 ## Getting Started
 
