@@ -123,6 +123,7 @@ This project includes extensive demonstrations of AI agent architectures using L
 | `multimodal_agent_demo.py`          | Processing multiple input types (text, images, etc.).                  |
 | `voice_ai_agent_demo.py`            | Voice AI agent with function calling, streaming, JSON mode, and tools. |
 | `voice_ai_agent_evaluation_demo.py` | Evaluation framework for Voice AI Agent with test cases and metrics.   |
+| `agent_observability_demo.py`       | Observability framework with logging, metrics, tracing, and health.    |
 
 ## Getting Started
 
