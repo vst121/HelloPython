@@ -124,6 +124,7 @@ This project includes extensive demonstrations of AI agent architectures using L
 | `voice_ai_agent_demo.py`            | Voice AI agent with function calling, streaming, JSON mode, and tools. |
 | `voice_ai_agent_evaluation_demo.py` | Evaluation framework for Voice AI Agent with test cases and metrics.   |
 | `agent_observability_demo.py`       | Observability framework with logging, metrics, tracing, and health.    |
+| `ai_gateway_security_demo.py`       | AI Gateway with rate limiting, authentication, and threat detection.   |
 
 ## Getting Started
 
