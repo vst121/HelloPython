@@ -30,6 +30,7 @@ This project contains a series of specialized scripts exploring advanced Python 
 | `type_hinting_demo.py`                | **Type Hinting**         | Static typing annotations for better code clarity and tooling.                   |
 | `coroutines_demo.py`                  | **Coroutines**           | Advanced async patterns and producer-consumer patterns.                          |
 | `decorators_demo.py`                  | **Decorators**           | Function and class decorators for cross-cutting concerns.                        |
+| `docker_demo.py`                      | **Dockerization**        | Dockerizing a simple fastapi python project.                                     |
 
 ## Core Patterns
 
