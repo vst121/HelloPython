@@ -31,6 +31,7 @@ This project contains a series of specialized scripts exploring advanced Python 
 | `coroutines_demo.py`                  | **Coroutines**           | Advanced async patterns and producer-consumer patterns.                          |
 | `decorators_demo.py`                  | **Decorators**           | Function and class decorators for cross-cutting concerns.                        |
 | `docker_demo.py`                      | **Dockerization**        | Dockerizing a simple fastapi python project.                                     |
+| `harnessing_demo.py`                  | **Test Harnessing**      | Building a reusable, dependency-free harness for running and timing cases.       |
 
 ## Core Patterns
 
