@@ -59,6 +59,7 @@ This project includes extensive demonstrations of AI agent architectures using L
 | `ollama_chat_demo.py`      | Basic chat interaction with Ollama local LLM.        |
 | `web_search_agent_demo.py` | Agent that searches the web for current information. |
 | `sql_agent_demo.py`        | Natural language to SQL query generation.            |
+| `ai_harnessing_demo.py`    | Offline evaluation harness for AI responses.         |
 
 ### Single-Agent Architectures
 
