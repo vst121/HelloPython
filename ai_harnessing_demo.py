@@ -1,5 +1,6 @@
 """A deterministic evaluation harness for testing an AI assistant in Python."""
 
+import json
 from dataclasses import dataclass
 from time import perf_counter
 from typing import Callable
@@ -27,6 +28,48 @@ class EvaluationResult:
     failures: tuple[str, ...] = ()
 
 
+@dataclass(frozen=True)
+class RubricCriterion:
+    """A weighted quality check for a response."""
+
+    name: str
+    check: Callable[[str], bool]
+    weight: float = 1.0
+
+
+@dataclass(frozen=True)
+class RubricResult:
+    """The weighted outcome of evaluating a response against a rubric."""
+
+    score: float
+    passed: bool
+    failures: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class AdvancedEvaluationCase:
+    """A case with optional schema, rubric, latency, and consistency checks."""
+
+    name: str
+    prompt: str
+    rubric: tuple[RubricCriterion, ...] = ()
+    required_json_keys: tuple[str, ...] = ()
+    max_latency_ms: float | None = None
+    repetitions: int = 1
+
+
+@dataclass(frozen=True)
+class AdvancedEvaluationResult:
+    """The outcome of an advanced evaluation case."""
+
+    case_name: str
+    passed: bool
+    score: float
+    responses: tuple[str, ...]
+    elapsed_ms: float
+    failures: tuple[str, ...] = ()
+
+
 def mock_assistant(prompt: str) -> str:
     """Return predictable responses so the harness can run offline."""
     prompt_lower = prompt.lower()
@@ -36,6 +79,18 @@ def mock_assistant(prompt: str) -> str:
     if "password" in prompt_lower:
         return "Use a password manager and enable multi-factor authentication."
     return "I do not have enough context to answer that request."
+
+
+def structured_mock_assistant(prompt: str) -> str:
+    """Return a predictable JSON response for contract testing."""
+    if "summarize" in prompt.lower():
+        return json.dumps(
+            {
+                "summary": "Python lists preserve order and can be changed.",
+                "confidence": 0.98,
+            }
+        )
+    return json.dumps({"summary": "No summary available.", "confidence": 0.2})
 
 
 def evaluate_case(
@@ -101,6 +156,133 @@ def run_evaluation_suite(
     return results
 
 
+def evaluate_rubric(
+    response: str,
+    criteria: tuple[RubricCriterion, ...],
+) -> RubricResult:
+    """Score a response against weighted, user-defined quality criteria."""
+    if not criteria:
+        return RubricResult(score=1.0, passed=True)
+
+    failures: list[str] = []
+    total_weight = sum(criterion.weight for criterion in criteria)
+    earned_weight = 0.0
+
+    for criterion in criteria:
+        if criterion.weight <= 0:
+            raise ValueError(f"criterion weight must be positive: {criterion.name}")
+        try:
+            passed = criterion.check(response)
+        except Exception as error:
+            passed = False
+            failures.append(
+                f"criterion {criterion.name!r} raised {type(error).__name__}: {error}"
+            )
+        if passed:
+            earned_weight += criterion.weight
+        else:
+            failures.append(f"rubric criterion failed: {criterion.name}")
+
+    score = earned_weight / total_weight
+    return RubricResult(score=score, passed=not failures, failures=tuple(failures))
+
+
+def validate_json_contract(
+    response: str,
+    required_keys: tuple[str, ...],
+) -> tuple[bool, str]:
+    """Validate that a response is a JSON object containing required keys."""
+    if not required_keys:
+        return True, ""
+    try:
+        payload = json.loads(response)
+    except json.JSONDecodeError as error:
+        return False, f"invalid JSON: {error.msg}"
+    if not isinstance(payload, dict):
+        return False, "JSON response must be an object"
+
+    missing_keys = [key for key in required_keys if key not in payload]
+    if missing_keys:
+        return False, f"missing JSON keys: {', '.join(missing_keys)}"
+    return True, ""
+
+
+def evaluate_advanced_case(
+    case: AdvancedEvaluationCase,
+    assistant: Callable[[str], str],
+) -> AdvancedEvaluationResult:
+    """Run rubric, JSON contract, latency, and consistency checks."""
+    if case.repetitions < 1:
+        raise ValueError("repetitions must be at least 1")
+
+    started_at = perf_counter()
+    responses: list[str] = []
+    failures: list[str] = []
+
+    for _ in range(case.repetitions):
+        try:
+            responses.append(assistant(case.prompt))
+        except Exception as error:
+            failures.append(f"assistant raised {type(error).__name__}: {error}")
+
+    elapsed_ms = (perf_counter() - started_at) * 1000
+    if not responses:
+        return AdvancedEvaluationResult(
+            case_name=case.name,
+            passed=False,
+            score=0.0,
+            responses=(),
+            elapsed_ms=elapsed_ms,
+            failures=tuple(failures),
+        )
+
+    rubric_results = [evaluate_rubric(response, case.rubric) for response in responses]
+    score = sum(result.score for result in rubric_results) / len(rubric_results)
+    for result in rubric_results:
+        failures.extend(result.failures)
+
+    contract_passed, contract_failure = validate_json_contract(
+        responses[0], case.required_json_keys
+    )
+    if not contract_passed:
+        failures.append(contract_failure)
+
+    if case.max_latency_ms is not None and elapsed_ms > case.max_latency_ms:
+        failures.append(
+            f"latency budget exceeded: {elapsed_ms:.3f} ms > "
+            f"{case.max_latency_ms:.3f} ms"
+        )
+
+    if len(set(responses)) > 1:
+        failures.append("inconsistent responses across repetitions")
+
+    return AdvancedEvaluationResult(
+        case_name=case.name,
+        passed=not failures,
+        score=score,
+        responses=tuple(responses),
+        elapsed_ms=elapsed_ms,
+        failures=tuple(failures),
+    )
+
+
+def run_advanced_suite(
+    cases: list[AdvancedEvaluationCase],
+    assistant: Callable[[str], str],
+) -> list[AdvancedEvaluationResult]:
+    """Run advanced cases and print their diagnostics."""
+    results = [evaluate_advanced_case(case, assistant) for case in cases]
+    for result in results:
+        status = "PASS" if result.passed else "FAIL"
+        print(
+            f"[{status}] {result.case_name:<22} "
+            f"score={result.score:.0%} time={result.elapsed_ms:.3f} ms"
+        )
+        for failure in result.failures:
+            print(f"       {failure}")
+    return results
+
+
 def main() -> None:
     cases = [
         EvaluationCase(
@@ -124,7 +306,38 @@ def main() -> None:
     print("=" * 72)
     print(f"Summary: {passed}/{len(results)} evaluations passed")
 
-    if passed != len(results):
+    advanced_cases = [
+        AdvancedEvaluationCase(
+            name="Structured summary contract",
+            prompt="Summarize Python lists as JSON.",
+            rubric=(
+                RubricCriterion(
+                    "explains ordering",
+                    lambda response: "preserve order" in response,
+                    weight=2.0,
+                ),
+                RubricCriterion(
+                    "mentions mutability",
+                    lambda response: "changed" in response,
+                ),
+            ),
+            required_json_keys=("summary", "confidence"),
+            max_latency_ms=100,
+            repetitions=2,
+        )
+    ]
+
+    print("\nAdvanced Harness Demonstration")
+    print("=" * 72)
+    advanced_results = run_advanced_suite(advanced_cases, structured_mock_assistant)
+    advanced_passed = sum(result.passed for result in advanced_results)
+    print("=" * 72)
+    print(
+        f"Advanced summary: {advanced_passed}/{len(advanced_results)} "
+        "evaluations passed"
+    )
+
+    if passed != len(results) or advanced_passed != len(advanced_results):
         raise SystemExit(1)
 
 
